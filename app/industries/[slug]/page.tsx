@@ -31,7 +31,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
           <Link href="/">Industries</Link> / {industry.repo}
         </p>
         <h1 className="page-title">{industry.name}</h1>
-        <p className="lede">{industry.summary}</p>
+        <p className="kicker">{industry.product}</p>
         <p className="honesty" data-testid="honesty">
           {catalog.honesty}
         </p>

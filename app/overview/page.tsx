@@ -12,11 +12,7 @@ export default function OverviewPage() {
     <main id="content" className="page">
       <div className="wrap">
         <p className="kicker">Committed reports</p>
-        <h1 className="page-title">Offline metric heatmap</h1>
-        <p className="lede">
-          Cells are the variant averages printed in each repository&apos;s report, compared with that repo&apos;s
-          offline thresholds. A green cell is at or above its bar. A red cell is under it.
-        </p>
+        <h1 className="page-title">Heatmap</h1>
         <p className="honesty" data-testid="honesty">
           {catalog.honesty}
         </p>

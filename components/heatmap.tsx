@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeatDetail } from "@/components/heat-detail";
 import { formatScore, formatThreshold, passesThreshold } from "@/lib/format";
 import { catalog, metricColumns } from "@/lib/industries";
 import type { IndustrySummary, VariantRole } from "@/lib/types";
@@ -49,15 +50,19 @@ function Cell({
           );
         }
         const status = passesThreshold(score, metric.threshold);
+        const statusName = status === null ? "no threshold" : status ? "pass" : "fail";
+        const detail = `${industry.name} · ${metric.label} · ${variant.label} · ${formatScore(score)} · threshold ${metric.threshold === null ? "none" : formatThreshold(metric.threshold)} · ${statusName}`;
         return (
           <div
             key={variant.id}
             className="cell"
             data-status={status === null ? "none" : status ? "pass" : "fail"}
             data-testid={id}
-            title={`${variant.label} ${score}`}
+            data-heat-detail={detail}
+            tabIndex={0}
           >
-            {formatScore(score)} <small>{variant.label}</small>
+            <span className="heat-fill" style={{ ["--amount" as string]: String(Math.max(0, Math.min(1, score))) }} />
+            <span className="heat-score">{formatScore(score)}</span>
           </div>
         );
       })}
@@ -77,12 +82,15 @@ export function Heatmap() {
           </label>
         ))}
       </div>
+      <ul className="legend" data-testid="heat-legend">
+        <li data-status="pass">At or above the threshold</li>
+        <li data-status="fail">Under the threshold</li>
+        <li data-status="absent">Not in that report</li>
+      </ul>
+      <HeatDetail />
       <p className="note">
-        Ecommerce baseline, fintech baseline, and SaaS naive are single recorded broken runs. Each report
-        describes that run as a retrieval failure together with an unguarded prompt. Those cells repeat under
-        Bad retriever and No guardrail because the repo did not commit two files. Medical, real estate, and HR
-        bad-retriever and no-guardrail cells are report averages; those repos did not commit per-question traces
-        for the broken variants.
+        Ecommerce baseline, fintech baseline, and SaaS naive are one broken run each, repeated in both broken
+        views. Medical, real estate, and HR broken cells are report averages only.
       </p>
       <div className="heat-scroll heat-table-wrap">
         <table className="heat-table">

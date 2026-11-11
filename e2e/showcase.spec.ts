@@ -20,15 +20,41 @@ test("simulator replays support and the gate follows the variant", async ({ page
   await expect(page.getByTestId("chunk").first()).toContainText("score not recorded");
 
   await page.getByTestId("variant-bad-retriever").click();
+  await expect(page.getByTestId("answer")).toContainText("don't know");
   await expect(page.getByTestId("gate")).toHaveAttribute("data-status", "fail");
   const broken = (await page.getByTestId("answer").innerText()).trim();
   expect(broken).not.toBe(improved);
-  expect(broken.toLowerCase()).toContain("don't know");
 
-  await page.getByTestId("replay").click();
+  await page.getByTestId("play").click();
   await expect(page.getByTestId("gate")).toBeHidden();
   await expect(page.getByTestId("gate")).toBeVisible();
   await expect(page.getByTestId("gate")).toHaveAttribute("data-status", "fail");
+});
+
+test("simulator play, pause, and step", async ({ page }) => {
+  await page.goto("/industries/support");
+  await page.getByTestId("play").click();
+  await expect(page.getByTestId("replay-state")).toHaveAttribute("data-state", "playing");
+  await page.getByTestId("pause").click();
+  await expect(page.getByTestId("replay-state")).toHaveAttribute("data-state", "paused");
+  const step = Number(await page.getByTestId("replay-state").getAttribute("data-step"));
+  await page.getByTestId("step").click();
+  await expect(page.getByTestId("replay-state")).toHaveAttribute("data-step", String(step + 1));
+  await expect(page.getByTestId("replay-state")).toHaveAttribute("data-state", "paused");
+});
+
+test("reduced motion stays on the finished frame", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const page = await context.newPage();
+  await page.goto("/");
+  await expect(page.getByTestId("hero-pipeline")).toHaveAttribute("data-motion", "reduced");
+  await expect(page.getByTestId("hero-pipeline")).toHaveAttribute("data-stage", "gate");
+  await page.goto("/industries/support");
+  await expect(page.getByTestId("replay-state")).toHaveAttribute("data-motion", "reduced");
+  await page.getByTestId("play").click();
+  await expect(page.getByTestId("replay-state")).toHaveAttribute("data-state", "done");
+  await expect(page.getByTestId("gate")).toBeVisible();
+  await context.close();
 });
 
 test("insurance replay shows a recorded retrieval score", async ({ page }) => {
