@@ -21,6 +21,7 @@ export function Header() {
           <strong>RAG evals</strong>
         </Link>
         <nav className="nav" aria-label="Primary">
+          <span className="demo-pill">Synthetic demo</span>
           {LINKS.map((link) => {
             const current = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
             return (

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Heatmap } from "@/components/heatmap";
-import { catalog } from "@/lib/industries";
 
 export const metadata: Metadata = {
   title: "Overview",
@@ -11,48 +10,10 @@ export default function OverviewPage() {
   return (
     <main id="content" className="page">
       <div className="wrap">
-        <p className="kicker">Committed reports</p>
+        <p className="kicker">Five shared offline metrics</p>
         <h1 className="page-title">Heatmap</h1>
-        <p className="honesty" data-testid="honesty">
-          {catalog.honesty}
-        </p>
         <Heatmap />
-        <section className="metric-block">
-          <h2>Live RAGAS metrics</h2>
-          <p className="note">needs API key — not measured. Thresholds below are configuration, not scores.</p>
-          <div className="table-scroll">
-            <table className="metric-table">
-              <thead>
-                <tr>
-                  <th>Industry</th>
-                  {["faithfulness", "answer_relevancy", "context_precision", "context_recall"].map((id) => (
-                    <th key={id}>{id.replaceAll("_", " ")}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {catalog.industries.map((industry) => (
-                  <tr key={industry.slug}>
-                    <th>{industry.name}</th>
-                    {["faithfulness", "answer_relevancy", "context_precision", "context_recall"].map((id) => {
-                      const live = industry.liveMetrics.find((metric) => metric.id === id);
-                      return (
-                        <td key={id}>
-                          not measured
-                          {live?.threshold !== null && live?.threshold !== undefined ? (
-                            <div className="muted">configured bar {live.threshold.toFixed(2)}</div>
-                          ) : (
-                            <div className="muted">no threshold file</div>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
+        <p className="live-note">Faithfulness, answer relevancy, context precision, context recall: needs API key — not measured.</p>
       </div>
     </main>
   );

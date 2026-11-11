@@ -32,9 +32,6 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         </p>
         <h1 className="page-title">{industry.name}</h1>
         <p className="kicker">{industry.product}</p>
-        <p className="honesty" data-testid="honesty">
-          {catalog.honesty}
-        </p>
         <div className="links">
           <a href={industry.repoUrl} rel="noreferrer">
             Repository
@@ -92,15 +89,6 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
               </tbody>
             </table>
           </div>
-          <h2>Live judge metrics</h2>
-          <ul>
-            {industry.liveMetrics.map((metric) => (
-              <li key={metric.id}>
-                {metric.label}: needs API key — not measured
-                {metric.threshold === null ? "" : ` (configured bar ${formatThreshold(metric.threshold)})`}
-              </li>
-            ))}
-          </ul>
         </section>
       </div>
     </main>

@@ -1,8 +1,16 @@
 import Link from "next/link";
 import { HeatDetail } from "@/components/heat-detail";
 import { formatScore, formatThreshold, passesThreshold } from "@/lib/format";
-import { catalog, metricColumns } from "@/lib/industries";
+import { catalog } from "@/lib/industries";
 import type { IndustrySummary, VariantRole } from "@/lib/types";
+
+const SHARED = [
+  { id: "hit_rate", label: "Hit rate" },
+  { id: "mrr", label: "MRR" },
+  { id: "non_llm_context_recall", label: "Recall" },
+  { id: "string_presence", label: "Presence" },
+  { id: "refusal_correctness", label: "Refusal" },
+];
 
 const VIEWS: { id: string; className: string; label: string; roles: VariantRole[] }[] = [
   { id: "view-gated", className: "for-gated", label: "Gated variant", roles: ["gated"] },
@@ -31,47 +39,30 @@ function Cell({
   const variants = variantsFor(industry, roles);
   const view = className === "for-gated" ? "gated" : className === "for-bad" ? "bad" : "open";
   const id = testId ? `heat-${industry.slug}-${metricId}-${view}` : undefined;
-  if (!metric || variants.length === 0 || variants.every((variant) => metric.scores[variant.id] === undefined)) {
-    return (
-      <td className={`cell ${className}`} data-status="absent" data-testid={id}>
-        — <small>not in report</small>
-      </td>
-    );
+  const variant = variants.find((item) => metric && metric.scores[item.id] !== undefined);
+  const score = variant && metric ? metric.scores[variant.id] : undefined;
+  if (!metric || score === undefined || !variant) {
+    return <div className={`cell ${className}`} data-status="absent" data-testid={id} />;
   }
+  const status = passesThreshold(score, metric.threshold);
+  const margin = metric.threshold === null ? 0 : Math.abs(score - metric.threshold);
+  const statusName = status === null ? "no threshold" : status ? "pass" : "fail";
+  const detail = `${industry.name} · ${metric.label} · ${variant.label} · ${formatScore(score)} · threshold ${metric.threshold === null ? "none" : formatThreshold(metric.threshold)} · ${statusName}`;
   return (
-    <td className={className}>
-      {variants.map((variant) => {
-        const score = metric.scores[variant.id];
-        if (score === undefined) {
-          return (
-            <div key={variant.id} data-testid={id}>
-              — <small>{variant.label}</small>
-            </div>
-          );
-        }
-        const status = passesThreshold(score, metric.threshold);
-        const statusName = status === null ? "no threshold" : status ? "pass" : "fail";
-        const detail = `${industry.name} · ${metric.label} · ${variant.label} · ${formatScore(score)} · threshold ${metric.threshold === null ? "none" : formatThreshold(metric.threshold)} · ${statusName}`;
-        return (
-          <div
-            key={variant.id}
-            className="cell"
-            data-status={status === null ? "none" : status ? "pass" : "fail"}
-            data-testid={id}
-            data-heat-detail={detail}
-            tabIndex={0}
-          >
-            <span className="heat-fill" style={{ ["--amount" as string]: String(Math.max(0, Math.min(1, score))) }} />
-            <span className="heat-score">{formatScore(score)}</span>
-          </div>
-        );
-      })}
-    </td>
+    <div
+      className={`cell ${className}`}
+      data-status={status === null ? "none" : status ? "pass" : "fail"}
+      data-testid={id}
+      data-heat-detail={detail}
+      tabIndex={0}
+      style={{ ["--strength" as string]: String(Math.round(Math.min(1, margin / 0.35) * 100)) }}
+    >
+      {formatScore(score)}
+    </div>
   );
 }
 
 export function Heatmap() {
-  const columns = metricColumns();
   return (
     <div className="heat">
       <div className="controls" role="radiogroup" aria-label="Which variant to show">
@@ -85,87 +76,39 @@ export function Heatmap() {
       <ul className="legend" data-testid="heat-legend">
         <li data-status="pass">At or above the threshold</li>
         <li data-status="fail">Under the threshold</li>
-        <li data-status="absent">Not in that report</li>
       </ul>
       <HeatDetail />
       <p className="note">
-        Ecommerce baseline, fintech baseline, and SaaS naive are one broken run each, repeated in both broken
-        views. Medical, real estate, and HR broken cells are report averages only.
+        Broken runs that mix a bad retriever and an unguarded prompt appear in both broken views. Medical, real
+        estate, and HR broken cells are report averages.
       </p>
-      <div className="heat-scroll heat-table-wrap">
-        <table className="heat-table">
-          <thead>
-            <tr>
-              <th>Industry</th>
-              {columns.map((column) => (
-                <th key={column.id}>
-                  {column.label}
-                  <div className="muted">
-                    {thresholdSpan(column.id)}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {catalog.industries.map((industry) => (
-              <tr key={industry.slug}>
-                <th>
-                  <Link href={`/industries/${industry.slug}`}>{industry.name}</Link>
-                </th>
-                {columns.map((column) => (
-                  <FragmentCells key={column.id} industry={industry} metricId={column.id} />
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="heat-cards">
+      <div className="heat-board">
+        <div className="heat-head">
+          <span>Industry</span>
+          {SHARED.map((metric) => (
+            <span key={metric.id}>{metric.label}</span>
+          ))}
+        </div>
         {catalog.industries.map((industry) => (
-          <article key={industry.slug} className="heat-card">
-            <h3>
-              <Link href={`/industries/${industry.slug}`}>{industry.name}</Link>
-            </h3>
-            {VIEWS.map((view) => (
-              <div key={view.id} className={view.className}>
-                <p className="meta">{view.label}</p>
-                <table className="score-table">
-                  <tbody>
-                    {columns.map((column) => (
-                      <tr key={column.id}>
-                        <th>{column.label}</th>
-                        <Cell industry={industry} metricId={column.id} roles={view.roles} className={view.className} />
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ))}
-          </article>
+          <div key={industry.slug} className="heat-row">
+            <Link className="heat-name" href={`/industries/${industry.slug}`}>
+              {industry.name}
+            </Link>
+            {SHARED.map((metric) =>
+              VIEWS.map((view) => (
+                <Cell
+                  key={`${metric.id}-${view.id}`}
+                  industry={industry}
+                  metricId={metric.id}
+                  roles={view.roles}
+                  className={view.className}
+                  testId
+                />
+              )),
+            )}
+          </div>
         ))}
       </div>
     </div>
   );
-}
-
-function FragmentCells({ industry, metricId }: { industry: IndustrySummary; metricId: string }) {
-  return (
-    <>
-      {VIEWS.map((view) => (
-        <Cell key={view.id} industry={industry} metricId={metricId} roles={view.roles} className={view.className} testId />
-      ))}
-    </>
-  );
-}
-
-function thresholdSpan(metricId: string) {
-  const values = new Set<string>();
-  for (const industry of catalog.industries) {
-    const metric = industry.metrics.find((item) => item.id === metricId);
-    if (metric?.threshold !== null && metric?.threshold !== undefined) values.add(formatThreshold(metric.threshold));
-  }
-  if (values.size === 0) return "no shared bar";
-  if (values.size === 1) return `bar ${[...values][0]}`;
-  return "bars differ";
 }

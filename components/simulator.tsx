@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { TEXT_SOURCE_LABEL, formatScore, passesThreshold } from "@/lib/format";
+import { formatScore, passesThreshold } from "@/lib/format";
 import type { ChunkRecord, IndustryDetail, RunRecord, VariantSummary } from "@/lib/types";
 
 const STEP_LABELS = ["Query", "Retrieve", "Guard", "Answer", "Metrics", "Gate"];
@@ -139,14 +139,6 @@ export function Simulator({ industry }: { industry: IndustryDetail }) {
           </select>
         </label>
       </div>
-      <div className="progress" aria-hidden="true">
-        <span style={{ transform: `scaleX(${Math.min(1, trace.shown / LAST)})` }} />
-        {STEP_LABELS.map((label, index) => (
-          <b key={label} data-on={trace.shown > index ? "yes" : "no"}>
-            {label}
-          </b>
-        ))}
-      </div>
       <div className="variant-row" role="radiogroup" aria-label="Recorded variant">
         {industry.variants.map((item) => (
           <button
@@ -166,7 +158,15 @@ export function Simulator({ industry }: { industry: IndustryDetail }) {
         ))}
       </div>
       {variant.note ? <p className="note">{variant.note}</p> : null}
-      <div className={compare ? "compare" : "compare single"}>
+      <div className="sim-grid">
+        <ol className="timeline" aria-label="Replay steps">
+          {STEP_LABELS.map((label, index) => (
+            <li key={label} data-on={trace.shown > index ? "yes" : "no"} data-current={trace.shown === index + 1 ? "yes" : "no"}>
+              0{index + 1} {label}
+            </li>
+          ))}
+        </ol>
+        <div className={compare ? "compare" : "compare single"}>
         {compare ? (
           <TraceColumn
             title={`Gated · ${gated.label}`}
@@ -188,6 +188,7 @@ export function Simulator({ industry }: { industry: IndustryDetail }) {
           typed={typed}
           primary
         />
+        </div>
       </div>
     </div>
   );
@@ -264,14 +265,13 @@ function TraceColumn({
 
 function Chunk({ chunk, primary }: { chunk: ChunkRecord; primary: boolean }) {
   return (
-    <li className="chunk fan-card" data-testid={primary ? "chunk" : undefined} style={{ ["--i" as string]: chunk.rank }}>
-      <header>
-        <span>Rank {String(chunk.rank).padStart(2, "0")}</span>
-        <span>{chunk.chunkId ?? chunk.docId ?? "no id"}</span>
-        <span>{chunk.score === null ? "score not recorded" : `score ${formatScore(chunk.score)}`}</span>
-      </header>
-      <p>{chunk.text}</p>
-      <p>{TEXT_SOURCE_LABEL[chunk.textSource]}</p>
+    <li className="chunk" data-testid={primary ? "chunk" : undefined}>
+      <span className="rank">{String(chunk.rank).padStart(2, "0")}</span>
+      <div>
+        <strong>{chunk.chunkId ?? chunk.docId ?? "chunk"}</strong>
+        <p>{chunk.text}</p>
+        <p>{chunk.score === null ? "score not recorded" : `score ${formatScore(chunk.score)}`}</p>
+      </div>
     </li>
   );
 }
@@ -296,7 +296,6 @@ function MetricBars({ industry, variantId }: { industry: IndustryDetail; variant
           </div>
         );
       })}
-      <p className="meta">Bars are variant averages. Marker is the threshold. Live judge metrics: needs API key — not measured.</p>
     </div>
   );
 }
