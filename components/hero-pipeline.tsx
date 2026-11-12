@@ -9,6 +9,7 @@ export function HeroPipeline({ frames }: { frames: ReelFrame[] }) {
   const [frameIndex, setFrameIndex] = useState(0);
   const [stage, setStage] = useState(0);
   const [motion, setMotion] = useState<"pending" | "full" | "reduced">("pending");
+  const [typed, setTyped] = useState(0);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -37,22 +38,30 @@ export function HeroPipeline({ frames }: { frames: ReelFrame[] }) {
         timer = window.setTimeout(tick, 800);
         return;
       }
-      if (stage < STAGES.length - 1) setStage(stage + 1);
-      else {
+      if (stage < STAGES.length - 1) {
+        if (stage === 3) setTyped(0);
+        setStage(stage + 1);
+      } else {
         setFrameIndex((index) => (index + 1) % frames.length);
         setStage(0);
       }
     };
-    const delay = stage === STAGES.length - 1 ? 1200 : stage === 2 ? 980 : 680;
+    const delay = stage === 5 ? 1400 : stage === 2 ? 1100 : stage === 4 ? 1200 : 700;
     timer = window.setTimeout(tick, delay);
     return () => window.clearTimeout(timer);
   }, [motion, stage, frames.length]);
 
+  useEffect(() => {
+    if (motion !== "full" || stage !== 4) return;
+    const timer = window.setInterval(() => setTyped((count) => count + 4), 16);
+    return () => window.clearInterval(timer);
+  }, [motion, stage, frameIndex]);
+
   const frame = frames[frameIndex];
   if (!frame) return null;
   const stageName = motion === "reduced" ? "gate" : STAGES[stage];
-  const visible = motion === "reduced" ? STAGES.length - 1 : stage;
-  const guard = frame.guard.replace(/^Guardrail:\s*/i, "").slice(0, 28);
+  const visible = motion === "reduced" ? 5 : stage;
+  const answer = motion === "reduced" || visible > 4 ? frame.answer : frame.answer.slice(0, typed);
 
   return (
     <section
@@ -70,36 +79,59 @@ export function HeroPipeline({ frames }: { frames: ReelFrame[] }) {
         {frame.name} · {frame.variantLabel}
       </p>
       <h1 className="stage-question">{frame.question}</h1>
-      <div className="rail">
+      <div className="rail" aria-hidden="true">
         <span className="rail-line" />
-        <span className="pulse" aria-hidden="true" />
+        <span className="pulse" />
         <ol>
           {STAGES.map((name, index) => (
-            <li key={name} className="node" data-on={visible >= index ? "yes" : "no"}>
+            <li key={name} className="node" data-on={visible >= index ? "yes" : "no"} data-current={visible === index ? "yes" : "no"}>
               {name}
             </li>
           ))}
         </ol>
       </div>
-      <div className={visible >= 2 ? "chip-row" : "chip-row is-held"}>
-        {frame.chunks.slice(0, 4).map((chunk) => (
-          <div key={`${chunk.rank}-${chunk.label}`} className="fly" style={{ ["--i" as string]: chunk.rank }}>
-            <span>{String(chunk.rank).padStart(2, "0")}{chunk.score ? ` · ${chunk.score}` : ""}</span>
-            <b>{chunk.label.split("#")[0]}</b>
+      <div className="stage-well">
+        {visible < 2 ? <p className="well-arm">Arming retrieval</p> : null}
+        {visible === 2 ? (
+          <div className="hero-cards">
+            {frame.chunks.slice(0, 4).map((chunk) => (
+              <article key={`${chunk.rank}-${chunk.label}`} className="hero-card" style={{ ["--i" as string]: chunk.rank }}>
+                <span>{String(chunk.rank).padStart(2, "0")}{chunk.score ? ` · ${chunk.score}` : ""}</span>
+                <strong>{chunk.label.split("#")[0]}</strong>
+                <p>{chunk.text}</p>
+              </article>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="stage-lower">
-        <div className={visible >= 3 ? "shield" : "shield is-held"}>{guard || "Guard"}</div>
-        <p className={visible >= 4 ? "typed" : "typed is-held"}>{frame.answer}</p>
-        <div className={visible >= 4 ? "cite" : "cite is-held"}>
-          {frame.citations.slice(0, 3).map((id) => (
-            <span key={id}>{id}</span>
-          ))}
-        </div>
-        <div className={visible >= 5 ? "stamp" : "stamp is-held"} data-status={frame.gate}>
-          {frame.gate === "pass" ? "PASS" : "FAIL"}
-        </div>
+        ) : null}
+        {visible === 3 ? <div className="shield">{frame.guard}</div> : null}
+        {visible === 4 ? (
+          <div className="answer-well">
+            <p className="typed">
+              {answer}
+              <i className="caret" />
+            </p>
+            <div className="cite">
+              {frame.citations.slice(0, 3).map((id) => (
+                <span key={id}>{id}</span>
+              ))}
+            </div>
+          </div>
+        ) : null}
+        {visible >= 5 ? (
+          <div className="gate-well">
+            <div className="stamp" data-status={frame.gate}>
+              {frame.gate === "pass" ? "PASS" : "FAIL"}
+            </div>
+            <div className="hero-bars">
+              {frame.metrics.map((metric) => (
+                <div key={metric.id} className="hero-bar">
+                  <span>{metric.label}</span>
+                  <i data-status={metric.pass === false ? "fail" : "pass"} style={{ ["--amount" as string]: String(metric.amount) }} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );

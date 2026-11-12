@@ -214,13 +214,23 @@ function TraceColumn({
   primary?: boolean;
 }) {
   const answer = run?.answer ?? "";
-  const visibleAnswer = shown >= 5 || typed >= answer.length ? answer : answer.slice(0, typed);
+  const done = shown >= 6;
+  const visibleAnswer = done || typed >= answer.length ? answer : answer.slice(0, typed);
   const citations = [...new Set((run?.chunks ?? []).map((chunk) => chunk.docId).filter((id): id is string => Boolean(id)))].slice(0, 6);
+  const showQuery = done || shown === 1;
+  const showChunks = done || shown === 2;
+  const showGuard = done || shown === 3;
+  const showAnswer = done || shown === 4;
   return (
-    <article className="trace-col">
-      <p className="meta">{title}</p>
-      {shown >= 1 ? <p className="hero-question">{question}</p> : <p className="meta">Query</p>}
-      {shown >= 2 ? (
+    <article className="trace-col" data-status={variant.gate}>
+      <p className="col-title">{title}</p>
+      {done ? (
+        <div className="gate-stamp" data-testid={primary ? "gate" : "gate-compare"} data-status={variant.gate}>
+          {variant.gate === "pass" ? "PASS" : "FAIL"}
+        </div>
+      ) : null}
+      {showQuery ? <p className="q">{question}</p> : null}
+      {showChunks ? (
         variant.replay && run ? (
           run.chunks.length ? (
             <ol className="chunks">
@@ -235,13 +245,13 @@ function TraceColumn({
           <p>Per-question chunks were not committed.</p>
         )
       ) : null}
-      {shown >= 3 ? <p className="guard-badge">{guardLine(run, variant.replay)}</p> : null}
-      {shown >= 4 ? (
+      {showGuard ? <p className="guard-badge">{guardLine(run, variant.replay)}</p> : null}
+      {showAnswer ? (
         variant.replay && run ? (
           <>
             <p className="answer" data-testid={primary ? "answer" : undefined}>
               {visibleAnswer}
-              {shown === 4 && typed < answer.length ? <i className="caret" /> : null}
+              {!done && shown === 4 && typed < answer.length ? <i className="caret" /> : null}
             </p>
             <div className="chips">
               {citations.map((id) => (
@@ -253,12 +263,7 @@ function TraceColumn({
           <p>Per-question answer was not committed.</p>
         )
       ) : null}
-      {shown >= 5 ? <MetricBars industry={industry} variantId={variant.id} /> : null}
-      {shown >= 6 ? (
-        <div className="gate-stamp" data-testid={primary ? "gate" : "gate-compare"} data-status={variant.gate}>
-          {variant.gate === "pass" ? "PASS" : "FAIL"}
-        </div>
-      ) : null}
+      {done || shown === 5 ? <MetricBars industry={industry} variantId={variant.id} /> : null}
     </article>
   );
 }
@@ -270,7 +275,7 @@ function Chunk({ chunk, primary }: { chunk: ChunkRecord; primary: boolean }) {
       <div>
         <strong>{chunk.chunkId ?? chunk.docId ?? "chunk"}</strong>
         <p>{chunk.text}</p>
-        <p>{chunk.score === null ? "score not recorded" : `score ${formatScore(chunk.score)}`}</p>
+        {chunk.score === null ? null : <span className="score">score {formatScore(chunk.score)}</span>}
       </div>
     </li>
   );

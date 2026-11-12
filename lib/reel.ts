@@ -9,6 +9,14 @@ export type ReelChunk = {
   text: string;
 };
 
+export type ReelMetric = {
+  id: string;
+  label: string;
+  score: number;
+  amount: number;
+  pass: boolean | null;
+};
+
 export type ReelFrame = {
   slug: string;
   name: string;
@@ -20,6 +28,7 @@ export type ReelFrame = {
   guard: string;
   answer: string;
   citations: string[];
+  metrics: ReelMetric[];
 };
 
 function clip(value: string, max: number) {
@@ -45,6 +54,21 @@ function frameFor(detail: IndustryDetail, questionId: string, variant: VariantSu
     text: clip(chunk.text, 140),
   }));
   const citations = [...new Set(chunks.map((chunk) => chunk.label.split("#")[0]).filter(Boolean))].slice(0, 4);
+  const shared = ["hit_rate", "mrr", "non_llm_context_recall", "string_presence", "refusal_correctness"];
+  const short: Record<string, string> = {
+    hit_rate: "Hit",
+    mrr: "MRR",
+    non_llm_context_recall: "Recall",
+    string_presence: "Presence",
+    refusal_correctness: "Refusal",
+  };
+  const metrics: ReelMetric[] = shared.flatMap((id) => {
+    const metric = detail.metrics.find((item) => item.id === id);
+    const score = metric?.scores[variant.id];
+    if (!metric || score === undefined) return [];
+    const pass = metric.threshold === null ? null : score + 1e-12 >= metric.threshold;
+    return [{ id, label: short[id], score, amount: Math.max(0, Math.min(1, score)), pass }];
+  });
   return {
     slug: detail.slug,
     name: detail.name,
@@ -56,6 +80,7 @@ function frameFor(detail: IndustryDetail, questionId: string, variant: VariantSu
     guard: guardLine(run),
     answer: clip(run?.answer ?? "No per-question answer committed.", 200),
     citations,
+    metrics,
   };
 }
 

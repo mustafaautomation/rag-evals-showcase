@@ -17,7 +17,7 @@ test("simulator replays support and the gate follows the variant", async ({ page
   await expect(page.getByTestId("answer")).toContainText("$12");
   await expect(page.getByTestId("gate")).toHaveAttribute("data-status", "pass");
   const improved = (await page.getByTestId("answer").innerText()).trim();
-  await expect(page.getByTestId("chunk").first()).toContainText("score not recorded");
+  await expect(page.getByTestId("chunk").first()).toContainText("01");
 
   await page.getByTestId("variant-bad-retriever").click();
   await expect(page.getByTestId("answer")).toContainText("don't know");

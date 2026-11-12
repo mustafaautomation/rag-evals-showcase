@@ -45,9 +45,9 @@ function Cell({
     return <div className={`cell ${className}`} data-status="absent" data-testid={id} />;
   }
   const status = passesThreshold(score, metric.threshold);
-  const margin = metric.threshold === null ? 0 : Math.abs(score - metric.threshold);
+  const margin = metric.threshold === null ? null : score - metric.threshold;
   const statusName = status === null ? "no threshold" : status ? "pass" : "fail";
-  const detail = `${industry.name} · ${metric.label} · ${variant.label} · ${formatScore(score)} · threshold ${metric.threshold === null ? "none" : formatThreshold(metric.threshold)} · ${statusName}`;
+  const detail = `${industry.name} · ${metric.label} · ${variant.label} · ${formatScore(score)} · threshold ${metric.threshold === null ? "none" : formatThreshold(metric.threshold)} · margin ${margin === null ? "n/a" : formatScore(margin)} · ${statusName}`;
   return (
     <div
       className={`cell ${className}`}
@@ -55,7 +55,7 @@ function Cell({
       data-testid={id}
       data-heat-detail={detail}
       tabIndex={0}
-      style={{ ["--strength" as string]: String(Math.round(Math.min(1, margin / 0.35) * 100)) }}
+      style={{ ["--strength" as string]: String(Math.round(Math.min(1, Math.abs(margin ?? 0) / 0.35) * 100)) }}
     >
       {formatScore(score)}
     </div>
