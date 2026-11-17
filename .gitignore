@@ -1,0 +1,11 @@
+node_modules
+.next
+.cache
+out
+test-results
+playwright-report
+blob-report
+playwright/.cache
+*.tsbuildinfo
+.vercel
+*.log

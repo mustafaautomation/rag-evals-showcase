@@ -1,0 +1,1372 @@
+{
+  "honesty": "Replays recorded offline runs from the public repos; synthetic data; personal open-source demos.",
+  "industries": [
+    {
+      "slug": "support",
+      "name": "Customer support",
+      "repo": "support-rag-evals",
+      "product": "Sableboard help center",
+      "summary": "Synthetic help-center articles for a fictional kanban product. The offline gate scores the improved snapshot.",
+      "status": "ready",
+      "sourceCommit": "9f6ca2a413e61d46e5884d8ccefa0a01871e02fa",
+      "sourceCommitDate": "2026-11-11T22:25:46+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/support-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/support-rag-evals/blob/9f6ca2a413e61d46e5884d8ccefa0a01871e02fa/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/support-rag-evals/blob/9f6ca2a413e61d46e5884d8ccefa0a01871e02fa/docs/eval-report.md",
+      "reportPath": "docs/eval-report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/support-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/support-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 42,
+      "featuredQuestionId": "q27",
+      "gatedVariant": "improved",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "improved",
+          "label": "improved",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 42,
+          "gate": "pass"
+        },
+        {
+          "id": "bad-retriever",
+          "label": "bad-retriever",
+          "role": "bad-retriever",
+          "replay": true,
+          "note": null,
+          "runCount": 42,
+          "gate": "fail"
+        },
+        {
+          "id": "no-guardrail",
+          "label": "no-guardrail",
+          "role": "no-guardrail",
+          "replay": true,
+          "note": null,
+          "runCount": 42,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.8,
+          "scores": {
+            "bad-retriever": 0.108,
+            "no-guardrail": 1.0,
+            "improved": 1.0
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.9,
+          "scores": {
+            "bad-retriever": 0.452,
+            "no-guardrail": 0.643,
+            "improved": 1.0
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.9,
+          "scores": {
+            "bad-retriever": 0.524,
+            "no-guardrail": 0.643,
+            "improved": 1.0
+          }
+        },
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.8,
+          "scores": {
+            "bad-retriever": 0.108,
+            "no-guardrail": 1.0,
+            "improved": 1.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.7,
+          "scores": {
+            "bad-retriever": 0.056,
+            "no-guardrail": 0.955,
+            "improved": 0.955
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": [
+        "Offline embedder in this repo is a hashed TF-IDF vector. Snapshot lines do not store vectors."
+      ]
+    },
+    {
+      "slug": "legal",
+      "name": "Legal and compliance",
+      "repo": "legal-compliance-rag-evals",
+      "product": "Helios Ledger policies",
+      "summary": "Synthetic policy and regulation excerpts. The gated snapshot variant is named guarded.",
+      "status": "ready",
+      "sourceCommit": "498fcf3d7206530d63d8616b7385fbef0c7d1b1c",
+      "sourceCommitDate": "2026-11-11T22:24:54+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/legal-compliance-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/legal-compliance-rag-evals/blob/498fcf3d7206530d63d8616b7385fbef0c7d1b1c/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/legal-compliance-rag-evals/blob/498fcf3d7206530d63d8616b7385fbef0c7d1b1c/docs/eval_report.md",
+      "reportPath": "docs/eval_report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/legal-compliance-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/legal-compliance-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 40,
+      "featuredQuestionId": "q26",
+      "gatedVariant": "guarded",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "guarded",
+          "label": "guarded",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 40,
+          "gate": "pass"
+        },
+        {
+          "id": "bad_retriever",
+          "label": "bad_retriever",
+          "role": "bad-retriever",
+          "replay": true,
+          "note": null,
+          "runCount": 40,
+          "gate": "fail"
+        },
+        {
+          "id": "no_guardrail",
+          "label": "no_guardrail",
+          "role": "no-guardrail",
+          "replay": true,
+          "note": null,
+          "runCount": 40,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.9,
+          "scores": {
+            "no_guardrail": 1.0,
+            "guarded": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.8,
+          "scores": {
+            "no_guardrail": 1.0,
+            "guarded": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.9,
+          "scores": {
+            "no_guardrail": 1.0,
+            "guarded": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.9,
+          "scores": {
+            "no_guardrail": 0.8,
+            "guarded": 1.0,
+            "bad_retriever": 0.2
+          }
+        },
+        {
+          "id": "disclaimer_rate",
+          "label": "Disclaimer rate",
+          "threshold": 1.0,
+          "scores": {
+            "no_guardrail": 0.0,
+            "guarded": 1.0,
+            "bad_retriever": 1.0
+          }
+        },
+        {
+          "id": "citation_rate",
+          "label": "Citation rate",
+          "threshold": 0.95,
+          "scores": {
+            "no_guardrail": 0.0,
+            "guarded": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.95,
+          "scores": {
+            "no_guardrail": 0.0,
+            "guarded": 1.0,
+            "bad_retriever": 0.2
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": [
+        "No OPENAI_API_KEY was available when these snapshots were produced. RAGAS faithfulness, answer relevancy, context precision, and context recall are not stored here. Live mode computes them. Do not treat any number in this folder as an LLM-judge score."
+      ]
+    },
+    {
+      "slug": "medical",
+      "name": "Healthcare documents",
+      "repo": "medical-rag-evals",
+      "product": "Harborlight clinic pages",
+      "summary": "Synthetic clinic pages. The committed per-question snapshot is the baseline variant. Bad-retriever and no-guardrail numbers are the aggregate report only.",
+      "status": "ready",
+      "sourceCommit": "10dc08eb0f858e62fe17c8502cb183dc2131edce",
+      "sourceCommitDate": "2026-11-11T22:22:58+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/medical-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/medical-rag-evals/blob/10dc08eb0f858e62fe17c8502cb183dc2131edce/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/medical-rag-evals/blob/10dc08eb0f858e62fe17c8502cb183dc2131edce/docs/sample_report.md",
+      "reportPath": "docs/sample_report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/medical-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/medical-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 49,
+      "featuredQuestionId": "q34",
+      "gatedVariant": "baseline",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "baseline",
+          "label": "baseline",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 49,
+          "gate": "pass"
+        },
+        {
+          "id": "bad-retriever",
+          "label": "bad-retriever",
+          "role": "bad-retriever",
+          "replay": false,
+          "note": null,
+          "runCount": 0,
+          "gate": "fail"
+        },
+        {
+          "id": "no-guardrail",
+          "label": "no-guardrail",
+          "role": "no-guardrail",
+          "replay": false,
+          "note": null,
+          "runCount": 0,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.9,
+          "scores": {
+            "baseline": 1.0,
+            "bad-retriever": 0.0,
+            "no-guardrail": 1.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.9,
+          "scores": {
+            "baseline": 1.0,
+            "bad-retriever": 0.0,
+            "no-guardrail": 1.0
+          }
+        },
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.9,
+          "scores": {
+            "baseline": 1.0,
+            "bad-retriever": 0.0,
+            "no-guardrail": 1.0
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.95,
+          "scores": {
+            "baseline": 1.0,
+            "bad-retriever": 0.9795918367346939,
+            "no-guardrail": 0.7346938775510204
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.95,
+          "scores": {
+            "baseline": 1.0,
+            "bad-retriever": 0.30612244897959184,
+            "no-guardrail": 0.7346938775510204
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "slug": "edtech",
+      "name": "Tutoring",
+      "repo": "edtech-tutor-rag-evals",
+      "product": "Harborlight STAT 101",
+      "summary": "Synthetic lesson notes for a fictional college course. One snapshot file holds improved, no_guardrail, and bad_retriever rows.",
+      "status": "ready",
+      "sourceCommit": "0e1b1bb52c25659a964dfcdbd03846072b8cef63",
+      "sourceCommitDate": "2026-11-11T22:30:37+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/edtech-tutor-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/edtech-tutor-rag-evals/blob/0e1b1bb52c25659a964dfcdbd03846072b8cef63/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/edtech-tutor-rag-evals/blob/0e1b1bb52c25659a964dfcdbd03846072b8cef63/docs/example-report.md",
+      "reportPath": "docs/example-report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/edtech-tutor-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/edtech-tutor-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 40,
+      "featuredQuestionId": "q01",
+      "gatedVariant": "improved",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "improved",
+          "label": "improved",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 40,
+          "gate": "pass"
+        },
+        {
+          "id": "bad_retriever",
+          "label": "bad_retriever",
+          "role": "bad-retriever",
+          "replay": true,
+          "note": null,
+          "runCount": 40,
+          "gate": "fail"
+        },
+        {
+          "id": "no_guardrail",
+          "label": "no_guardrail",
+          "role": "no-guardrail",
+          "replay": true,
+          "note": null,
+          "runCount": 40,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.8,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.8,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 0.55,
+            "bad_retriever": 0.45
+          }
+        },
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.8,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 0.986,
+            "no_guardrail": 0.986,
+            "bad_retriever": 0.0
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.6,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "slug": "fintech",
+      "name": "Financial diligence",
+      "repo": "fintech-diligence-rag-evals",
+      "product": "Harborline statements",
+      "summary": "Synthetic financial statements. The report's baseline run is the broken variant: lowest-scoring chunks and a prompt that allows estimates.",
+      "status": "ready",
+      "sourceCommit": "f9314c0b18f4448a9db6440efea36658e1de0f25",
+      "sourceCommitDate": "2026-11-11T22:26:30+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/fintech-diligence-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/fintech-diligence-rag-evals/blob/f9314c0b18f4448a9db6440efea36658e1de0f25/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/fintech-diligence-rag-evals/blob/f9314c0b18f4448a9db6440efea36658e1de0f25/docs/reports/offline_eval_report.md",
+      "reportPath": "docs/reports/offline_eval_report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/fintech-diligence-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/fintech-diligence-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 42,
+      "featuredQuestionId": "q31",
+      "gatedVariant": "improved",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "improved",
+          "label": "improved",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 42,
+          "gate": "pass"
+        },
+        {
+          "id": "baseline",
+          "label": "baseline",
+          "role": "broken",
+          "replay": true,
+          "note": "One recorded broken run. The report describes it as lowest-scoring chunks and a prompt that allows estimates, advice, and forecasts. This repo did not commit separate bad-retriever and no-guardrail files.",
+          "runCount": 42,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "numeric_accuracy",
+          "label": "Numeric accuracy",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "baseline": 0.167
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "baseline": 0.714
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "baseline": 0.0
+          }
+        },
+        {
+          "id": "trap_avoidance",
+          "label": "Trap avoidance",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "baseline": 0.976
+          }
+        },
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "baseline": 0.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "baseline": 0.0
+          }
+        },
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "baseline": 0.0
+          }
+        },
+        {
+          "id": "non_llm_context_precision",
+          "label": "Non-LLM context precision",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 0.963,
+            "baseline": 0.0
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": null,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": null,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": null,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": null,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "slug": "insurance",
+      "name": "Insurance claims",
+      "repo": "insurance-claims-rag-evals",
+      "product": "Harborline Mutual pages",
+      "summary": "Synthetic auto, home, and renters pages for a fictional insurer. Snapshots include retrieval scores.",
+      "status": "ready",
+      "sourceCommit": "02350b05c0f9d44bb1d819690d7853d5a88dbacc",
+      "sourceCommitDate": "2026-11-11T22:26:59+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/insurance-claims-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/insurance-claims-rag-evals/blob/02350b05c0f9d44bb1d819690d7853d5a88dbacc/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/insurance-claims-rag-evals/blob/02350b05c0f9d44bb1d819690d7853d5a88dbacc/docs/eval_report.md",
+      "reportPath": "docs/eval_report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/insurance-claims-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/insurance-claims-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 48,
+      "featuredQuestionId": "q33",
+      "gatedVariant": "improved",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "improved",
+          "label": "improved",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 48,
+          "gate": "pass"
+        },
+        {
+          "id": "bad_retriever",
+          "label": "bad_retriever",
+          "role": "bad-retriever",
+          "replay": true,
+          "note": null,
+          "runCount": 48,
+          "gate": "fail"
+        },
+        {
+          "id": "no_guardrail",
+          "label": "no_guardrail",
+          "role": "no-guardrail",
+          "replay": true,
+          "note": null,
+          "runCount": 48,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.95,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 0.667,
+            "bad_retriever": 0.333
+          }
+        },
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 0.762,
+            "bad_retriever": 0.238
+          }
+        },
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 1.0,
+            "bad_retriever": 0.0
+          }
+        },
+        {
+          "id": "non_llm_context_precision",
+          "label": "Non-LLM context precision",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 1.0,
+            "no_guardrail": 1.0,
+            "bad_retriever": 0.0
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "slug": "ecommerce",
+      "name": "Product support",
+      "repo": "ecommerce-product-rag-evals",
+      "product": "Northline Supply catalog",
+      "summary": "Synthetic catalog and policy pages. The report's baseline column is an inverted retriever plus an unguarded provider.",
+      "status": "ready",
+      "sourceCommit": "21ad0bccc300c73287c1f8f1dc1746a1c42806f2",
+      "sourceCommitDate": "2026-11-11T22:20:30+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/ecommerce-product-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/ecommerce-product-rag-evals/blob/21ad0bccc300c73287c1f8f1dc1746a1c42806f2/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/ecommerce-product-rag-evals/blob/21ad0bccc300c73287c1f8f1dc1746a1c42806f2/docs/eval_report.md",
+      "reportPath": "docs/eval_report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/ecommerce-product-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/ecommerce-product-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 43,
+      "featuredQuestionId": "q32",
+      "gatedVariant": "improved",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "improved",
+          "label": "improved",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 43,
+          "gate": "pass"
+        },
+        {
+          "id": "baseline",
+          "label": "baseline",
+          "role": "broken",
+          "replay": true,
+          "note": "One recorded broken run. The report describes it as an inverted retriever plus an unguarded provider that invents a stock count and the discount code SAVE50. This repo did not commit separate bad-retriever and no-guardrail files.",
+          "runCount": 43,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.9,
+          "scores": {
+            "baseline": 0.0,
+            "improved": 1.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.85,
+          "scores": {
+            "baseline": 0.0,
+            "improved": 0.9419
+          }
+        },
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.9,
+          "scores": {
+            "baseline": 0.0,
+            "improved": 1.0
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.9,
+          "scores": {
+            "baseline": 0.0,
+            "improved": 1.0
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.9,
+          "scores": {
+            "baseline": 0.0,
+            "improved": 1.0
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "slug": "real-estate",
+      "name": "Listings and leases",
+      "repo": "real-estate-rag-evals",
+      "product": "Lantern House listings",
+      "summary": "Synthetic listings, leases, and building rules. The committed per-question file is the baseline run. Bad-retriever and no-guardrail figures are report aggregates.",
+      "status": "ready",
+      "sourceCommit": "e934fcd7452e4f50ee1c1e1e4d8c1d96a3989fe6",
+      "sourceCommitDate": "2026-11-11T22:25:16+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/real-estate-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/real-estate-rag-evals/blob/e934fcd7452e4f50ee1c1e1e4d8c1d96a3989fe6/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/real-estate-rag-evals/blob/e934fcd7452e4f50ee1c1e1e4d8c1d96a3989fe6/docs/eval_report.md",
+      "reportPath": "docs/eval_report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/real-estate-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/real-estate-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 49,
+      "featuredQuestionId": "q38",
+      "gatedVariant": "baseline",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "baseline",
+          "label": "baseline",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 49,
+          "gate": "pass"
+        },
+        {
+          "id": "bad-retriever",
+          "label": "bad-retriever",
+          "role": "bad-retriever",
+          "replay": false,
+          "note": null,
+          "runCount": 0,
+          "gate": "fail"
+        },
+        {
+          "id": "no-guardrail",
+          "label": "no-guardrail",
+          "role": "no-guardrail",
+          "replay": false,
+          "note": null,
+          "runCount": 0,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.95,
+          "scores": {
+            "bad-retriever": 0.0,
+            "baseline": 1.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.9,
+          "scores": {
+            "bad-retriever": 0.0,
+            "baseline": 1.0
+          }
+        },
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.95,
+          "scores": {
+            "bad-retriever": 0.0,
+            "baseline": 1.0
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.95,
+          "scores": {
+            "bad-retriever": 0.245,
+            "baseline": 1.0,
+            "no-guardrail": 0.857
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.95,
+          "scores": {
+            "bad-retriever": 0.245,
+            "baseline": 1.0,
+            "no-guardrail": 0.857
+          }
+        },
+        {
+          "id": "grounded_amounts",
+          "label": "Grounded amounts",
+          "threshold": 1.0,
+          "scores": {
+            "bad-retriever": 1.0,
+            "baseline": 1.0,
+            "no-guardrail": 1.0
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": [
+        "Snapshot meta embedder: hashed_tfidf.",
+        "No OPENAI_API_KEY was available when this snapshot was written. These rows are outputs of the deterministic extractive provider. They are not LLM-judge scores. Do not treat any field as a RAGAS faithfulness, relevancy, context precision, or context recall score."
+      ]
+    },
+    {
+      "slug": "hr",
+      "name": "HR policy",
+      "repo": "hr-policy-rag-evals",
+      "product": "Cedarline Studio handbook",
+      "summary": "Synthetic employee handbook. The committed per-question file is the standard pipeline, which the report calls improved. Bad-retriever and no-guardrail figures are report aggregates.",
+      "status": "ready",
+      "sourceCommit": "d5da8563044bc95513db5683266197b9527a525f",
+      "sourceCommitDate": "2026-11-11T22:32:08+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/hr-policy-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/hr-policy-rag-evals/blob/d5da8563044bc95513db5683266197b9527a525f/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/hr-policy-rag-evals/blob/d5da8563044bc95513db5683266197b9527a525f/docs/eval-report.md",
+      "reportPath": "docs/eval-report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/hr-policy-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/hr-policy-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 50,
+      "featuredQuestionId": "berlin-salary-list",
+      "gatedVariant": "standard",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "standard",
+          "label": "standard",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 50,
+          "gate": "pass"
+        },
+        {
+          "id": "bad-retriever",
+          "label": "bad-retriever",
+          "role": "bad-retriever",
+          "replay": false,
+          "note": null,
+          "runCount": 0,
+          "gate": "fail"
+        },
+        {
+          "id": "no-guardrail",
+          "label": "no-guardrail",
+          "role": "no-guardrail",
+          "replay": false,
+          "note": null,
+          "runCount": 0,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.85,
+          "scores": {
+            "standard": 1.0,
+            "bad-retriever": 0.0,
+            "no-guardrail": 1.0
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.9,
+          "scores": {
+            "standard": 1.0,
+            "bad-retriever": 0.34,
+            "no-guardrail": 0.84
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 0.95,
+          "scores": {
+            "standard": 1.0,
+            "bad-retriever": 0.82,
+            "no-guardrail": 0.84
+          }
+        },
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.85,
+          "scores": {
+            "standard": 1.0,
+            "bad-retriever": 0.0,
+            "no-guardrail": 1.0
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.7,
+          "scores": {
+            "standard": 0.96,
+            "bad-retriever": 0.0,
+            "no-guardrail": 0.96
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.6,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "slug": "saas",
+      "name": "SaaS docs",
+      "repo": "saas-docs-rag-evals",
+      "product": "Northline API docs",
+      "summary": "Synthetic HTTP API docs. The naive snapshot is the broken retriever and the prompt with no guardrails, in one recorded run.",
+      "status": "ready",
+      "sourceCommit": "412db03e1cf62cc93eba23f60c850b05c8bd3941",
+      "sourceCommitDate": "2026-11-11T22:19:40+08:00",
+      "repoUrl": "https://github.com/mustafaautomation/saas-docs-rag-evals",
+      "readmeUrl": "https://github.com/mustafaautomation/saas-docs-rag-evals/blob/412db03e1cf62cc93eba23f60c850b05c8bd3941/README.md",
+      "reportUrl": "https://github.com/mustafaautomation/saas-docs-rag-evals/blob/412db03e1cf62cc93eba23f60c850b05c8bd3941/docs/eval-report.md",
+      "reportPath": "docs/eval-report.md",
+      "actionsUrl": "https://github.com/mustafaautomation/saas-docs-rag-evals/actions/workflows/ci.yml",
+      "ciBadgeUrl": "https://github.com/mustafaautomation/saas-docs-rag-evals/actions/workflows/ci.yml/badge.svg",
+      "questionCount": 44,
+      "featuredQuestionId": "q31",
+      "gatedVariant": "improved",
+      "gate": "pass",
+      "variants": [
+        {
+          "id": "improved",
+          "label": "improved",
+          "role": "gated",
+          "replay": true,
+          "note": null,
+          "runCount": 44,
+          "gate": "pass"
+        },
+        {
+          "id": "naive",
+          "label": "naive",
+          "role": "broken",
+          "replay": true,
+          "note": "One recorded broken run. The report describes it as the broken retriever and the prompt with no guardrails. This repo did not commit separate bad-retriever and no-guardrail files.",
+          "runCount": 44,
+          "gate": "fail"
+        }
+      ],
+      "metrics": [
+        {
+          "id": "non_llm_context_recall",
+          "label": "Non-LLM context recall",
+          "threshold": 0.8,
+          "scores": {
+            "improved": 1.0,
+            "naive": 0.1
+          }
+        },
+        {
+          "id": "string_presence",
+          "label": "String presence",
+          "threshold": 0.8,
+          "scores": {
+            "improved": 1.0,
+            "naive": 0.0909
+          }
+        },
+        {
+          "id": "refusal_correctness",
+          "label": "Refusal correctness",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "naive": 0.6818
+          }
+        },
+        {
+          "id": "hit_rate",
+          "label": "Hit rate",
+          "threshold": 0.8,
+          "scores": {
+            "improved": 1.0,
+            "naive": 0.1
+          }
+        },
+        {
+          "id": "mrr",
+          "label": "MRR",
+          "threshold": 0.7,
+          "scores": {
+            "improved": 1.0,
+            "naive": 0.0611
+          }
+        },
+        {
+          "id": "endpoint_validity",
+          "label": "Endpoint validity",
+          "threshold": 1.0,
+          "scores": {
+            "improved": 1.0,
+            "naive": 0.9091
+          }
+        },
+        {
+          "id": "version_correctness",
+          "label": "Version correctness",
+          "threshold": 0.9,
+          "scores": {
+            "improved": 1.0,
+            "naive": 0.0
+          }
+        }
+      ],
+      "liveMetrics": [
+        {
+          "id": "faithfulness",
+          "label": "Faithfulness",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "answer_relevancy",
+          "label": "Answer relevancy",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_precision",
+          "label": "Context precision",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        },
+        {
+          "id": "context_recall",
+          "label": "Context recall",
+          "threshold": 0.7,
+          "status": "unmeasured",
+          "detail": "needs API key \u2014 not measured"
+        }
+      ],
+      "notes": []
+    }
+  ]
+}
