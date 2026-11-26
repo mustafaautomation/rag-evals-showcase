@@ -927,12 +927,18 @@ def ensure_repo(spec: dict, sources: Path | None) -> Path | None:
         return path
     dest = CACHE / repo
     url = f"https://github.com/{ORG}/{repo}.git"
-    if dest.exists():
-        subprocess.run(["git", "-C", str(dest), "fetch", "--depth", "1", "origin", "main"], check=True)
-        subprocess.run(["git", "-C", str(dest), "reset", "--hard", "FETCH_HEAD"], check=True)
-    else:
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["git", "clone", "--depth", "1", "--branch", "main", url, str(dest)], check=True)
+    # A repo that cannot be cloned or fetched counts as missing, so main() can
+    # honour --allow-missing (or fail with a clear message without it).
+    try:
+        if dest.exists():
+            subprocess.run(["git", "-C", str(dest), "fetch", "--depth", "1", "origin", "main"], check=True)
+            subprocess.run(["git", "-C", str(dest), "reset", "--hard", "FETCH_HEAD"], check=True)
+        else:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            subprocess.run(["git", "clone", "--depth", "1", "--branch", "main", url, str(dest)], check=True)
+    except (subprocess.CalledProcessError, OSError) as error:
+        print(f"cannot read {repo}: {error}", file=sys.stderr)
+        return None
     return dest
 
 

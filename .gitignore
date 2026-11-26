@@ -9,3 +9,4 @@ playwright/.cache
 *.tsbuildinfo
 .vercel
 *.log
+__pycache__
