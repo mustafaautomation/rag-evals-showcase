@@ -17,6 +17,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: python3 scripts/check_data.py
+      - run: npm run test:data
       - run: npm run lint
       - run: npm run build
       - run: npm run typecheck

@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "sync": "python3 scripts/sync_sources.py",
     "check-data": "python3 scripts/check_data.py",
+    "test:data": "python3 -m unittest discover -s tests",
     "test:e2e": "playwright test"
   },
   "engines": {
@@ -29,5 +30,8 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.6",
     "typescript": "^6.0.3"
+  },
+  "overrides": {
+    "postcss": "8.5.32"
   }
 }

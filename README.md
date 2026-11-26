@@ -36,7 +36,7 @@ python3 scripts/sync_sources.py
 
 That clones each repository into `.cache/sources` and rewrites `data/`. `--sources /path/to/clones` reads clones that are already on disk. `--allow-missing` records a repository the script cannot read instead of exiting. Without that flag a missing repository fails the script.
 
-`python3 scripts/check_data.py` checks the committed JSON.
+`python3 scripts/check_data.py` checks the committed JSON. `npm run test:data` runs the sync script's unit tests (Python standard library, no network).
 
 ## Run locally
 
@@ -51,6 +51,7 @@ npm run dev
 
 ```bash
 python3 scripts/check_data.py
+npm run test:data
 npm run lint
 npm run build
 npm run typecheck
@@ -58,7 +59,7 @@ npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-`npm run typecheck` needs `npm run build` first. The build writes Next.js route types that `tsconfig` references.
+Run `npm run build` before `npm run typecheck`. Typecheck also passes on a fresh checkout, but only after a build does it cover the Next.js route types the build writes to `.next/types`, which `tsconfig` includes.
 
 GitHub Actions runs the same checks on pull requests and on pushes to `main`. A failing step fails the workflow.
 
